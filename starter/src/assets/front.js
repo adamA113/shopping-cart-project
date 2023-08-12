@@ -1,10 +1,11 @@
+import Main from "./script.js";
 let currencySymbol = '$';
 
 // Draws product list
 function drawProducts() {
     let productList = document.querySelector('.products');
     let productItems = '';
-    products.forEach((element) => {
+    Main.products.forEach((element) => {
         productItems += `
             <div data-productId='${element.productId}'>
                 <img src='${element.image}'>
@@ -23,7 +24,7 @@ function drawCart() {
     let cartList = document.querySelector('.cart');
     // clear cart before drawing
     let cartItems = '';
-    cart.forEach((element) => {
+    Main.cart.forEach((element) => {
         let itemTotal = element.price * element.quantity;
 
         cartItems += `
@@ -39,7 +40,7 @@ function drawCart() {
         `;
     });
     // use innerHTML so that cart products only drawn once
-    cart.length
+    Main.cart.length
         ? (cartList.innerHTML = cartItems)
         : (cartList.innerHTML = 'Cart Empty');
 }
@@ -50,7 +51,7 @@ function drawCheckout() {
     checkout.innerHTML = '';
 
     // run cartTotal() from script.js
-    let cartSum = cartTotal();
+    let cartSum = Main.cartTotal();
 
     let div = document.createElement('div');
     div.innerHTML = `<p>Cart Total: ${currencySymbol}${cartSum}`;
@@ -65,7 +66,7 @@ drawCheckout();
 document.querySelector('.products').addEventListener('click', (e) => {
     let productId = e.target.parentNode.getAttribute('data-productId');
     productId *= 1;
-    addProductToCart(productId);
+    Main.addProductToCart(productId);
     drawCart();
     drawCheckout();
 });
@@ -78,9 +79,9 @@ document.querySelector('.cart').addEventListener('click', (e) => {
     function runCartFunction(fn) {
         let productId = e.target.parentNode.getAttribute('data-productId');
         productId *= 1;
-        for (let i = cart.length - 1; i > -1; i--) {
-            if (cart[i].productId === productId) {
-                let productId = cart[i].productId;
+        for (let i = Main.cart.length - 1; i > -1; i--) {
+            if (Main.cart[i].productId === productId) {
+                let productId = Main.cart[i].productId;
                 fn(productId);
             }
         }
@@ -92,13 +93,13 @@ document.querySelector('.cart').addEventListener('click', (e) => {
     // check the target's class and run function based on class
     if (e.target.classList.contains('remove')) {
         // run removeProductFromCart() from script.js
-        runCartFunction(removeProductFromCart);
+        runCartFunction(Main.removeProductFromCart);
     } else if (e.target.classList.contains('qup')) {
         // run increaseQuantity() from script.js
-        runCartFunction(increaseQuantity);
+        runCartFunction(Main.increaseQuantity);
     } else if (e.target.classList.contains('qdown')) {
         // run decreaseQuantity() from script.js
-        runCartFunction(decreaseQuantity);
+        runCartFunction(Main.decreaseQuantity);
     }
 });
 
@@ -110,7 +111,7 @@ document.querySelector('.pay').addEventListener('click', (e) => {
     amount *= 1;
 
     // Set cashReturn to return value of pay()
-    let cashReturn = pay(amount);
+    let cashReturn = Main.pay(amount);
 
     let paymentSummary = document.querySelector('.pay-summary');
     let div = document.createElement('div');
@@ -139,22 +140,22 @@ document.querySelector('.pay').addEventListener('click', (e) => {
 
 /* Standout suggestions */
 /* Begin remove all items from cart */
-// function dropCart(){
-//     let shoppingCart = document.querySelector('.empty-btn');
-//     let div = document.createElement("button");
-//     div.classList.add("empty");
-//     div.innerHTML =`Empty Cart`;
-//     shoppingCart.append(div);
-// }
-// dropCart();
+function dropCart(){
+    let shoppingCart = document.querySelector('.empty-btn');
+    let div = document.createElement("button");
+    div.classList.add("empty");
+    div.innerHTML =`Empty Cart`;
+    shoppingCart.append(div);
+}
+dropCart();
 
-// document.querySelector('.empty-btn').addEventListener('click', (e) => {
-//     if (e.target.classList.contains('empty')){
-//         emptyCart();
-//         drawCart();
-//         drawCheckout();
-//     }
-// })
+document.querySelector('.empty-btn').addEventListener('click', (e) => {
+    if (e.target.classList.contains('empty')){
+        Main.emptyCart();
+        drawCart();
+        drawCheckout();
+    }
+})
 /* End all items from cart */
 
 /* Begin currency converter */
