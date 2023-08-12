@@ -146,8 +146,14 @@ function emptyCart() {
 let totalPaid = 0;
 function pay(amount) {
   totalPaid += amount;
-  return totalPaid - cartTotal();
-};
+
+  const balance = totalPaid - cartTotal();
+  if (balance >= 0) {
+    totalPaid = 0;
+
+  }
+  return balance;
+}
 
 
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
