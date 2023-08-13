@@ -72,11 +72,11 @@ function addProductToCart(productId) {
 */
 
 function increaseQuantity(productId) {
-  cart.forEach((item, index) => {
+  cart.forEach((item) => {
     if (productId == item.productId) {
       item.quantity++;
     }
-  })
+  });
 }
 
 /* Create a function named decreaseQuantity that takes in the productId as an argument
@@ -95,7 +95,7 @@ function decreaseQuantity(productId) {
         item.quantity--;
       }
     }
-  })
+  });
 }
 
 /* Create a function named removeProductFromCart that takes in the productId as an argument
@@ -110,7 +110,7 @@ function removeProductFromCart(productId) {
       item.quantity = 0;
       cart.splice(index, 1);
     }
-  })
+  });
 }
 
 
@@ -123,7 +123,7 @@ function cartTotal() {
   let totalAmount = 0;
 
   products.forEach((product) => {
-    totalAmount += product.quantity * product.price
+    totalAmount += product.quantity * product.price;
   });
 
   return totalAmount;
@@ -133,7 +133,7 @@ function cartTotal() {
 /* Create a function called emptyCart that empties the products from the cart */
 
 function emptyCart() {
-  products.forEach((product, index) => {
+  products.forEach((product) => {
     removeProductFromCart(product.productId);
   });
 }
@@ -146,12 +146,13 @@ function emptyCart() {
 let totalPaid = 0;
 function pay(amount) {
   totalPaid += amount;
-
   const balance = totalPaid - cartTotal();
+
   if (balance >= 0) {
     totalPaid = 0;
-
+    emptyCart();
   }
+
   return balance;
 }
 
